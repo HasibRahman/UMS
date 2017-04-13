@@ -1,0 +1,103 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SaveStationary</title>
+    <style>
+        label.error {
+            color: red;
+            font-weight: bold;
+        }
+       
+   </style>
+</head>
+<body>
+    <div>
+        <form id="stationaryForm" method="POST">
+            <table>
+                @if (ViewBag.msz != null)
+                {
+                    <p><b>Stationary Saved</b></p>
+                }
+                <tr>
+                    <td>
+                        <label for="Name">Name</label>
+                    </td>
+                    <td>
+                        <input type="text" id="Name" name="Name" />
+                    </td>
+                </tr>
+                <tr><td><br /></td><td><br /></td></tr>
+                <tr>
+                    <td>
+                        <label for="Price">Price</label>
+                    </td>
+                    <td>
+                        <input type="text" id="Price" name="Price" />
+                    </td>
+                </tr>
+                <tr><td><br /></td><td><br /></td></tr>
+                <tr>
+                    <td>
+                        <label for="TypeId">Type</label>
+                    </td>
+                    <td>
+                        <select id="TypeId" name="TypeId">
+                            @foreach (var type in ViewBag.stationaryType)
+                            {
+                                <option value="@type.Id">@type.Name</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr><td><br /></td><td><br /></td></tr>
+                <tr>
+                    <td>
+                        <label for="Purpose">Purpose</label>
+                    </td>
+                    <td>
+                        <input type="text" id="Purpose" name="Purpose" />
+                    </td>
+                </tr>
+                <tr><td><br /></td><td><br /></td></tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" id="Save" name="Save" value="Save" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script src="~/Scripts/jquery-2.2.0.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#stationaryForm").validate({
+                rules: {
+                    Name: "required",
+                    Price: {
+                        required: true,
+                        min: 1
+                    },
+                    Purpose: "required"
+                },
+                messages: {
+                    Name: "Please provide stationary Name",
+                    Price: {
+                        required: "Price field is empty",
+                        min: "Price can not be negative value"
+                    },
+                    Purpose: "Please provide stationary Purpose",
+                }
+            });
+        });
+    </script>
+</body>
+</html>

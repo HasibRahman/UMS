@@ -1,0 +1,104 @@
+﻿@model UniversityManagementSystem.Models.Course
+@using System.Web.UI.HtmlControls
+@{
+    ViewBag.Title = "AssignCourse";
+}
+
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend>Course Assign To Teacher</legend>
+        <table>
+            <tr>
+                <td>
+                    @Html.LabelFor(m=>m.Department)
+                </td>
+                <td>
+                    @Html.DropDownList("DepartmentId", "<Select>")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.LabelFor(m => m.Teacher)
+                </td>
+                <td>
+                    @Html.DropDownList("TeacherId", "<Select>")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Credit To Be Taken")
+                </td>
+                <td>
+                    @Html.TextBox("TakenCredit")
+                </td>
+            </tr>   
+            <tr>
+                <td>
+                    @Html.Label("Remaning Credit")
+                </td>
+                <td>
+                    @Html.TextBox("RemainingCredit")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Course Code")
+                </td>
+                <td>
+                    @Html.DropDownList("CourseId","<Select>")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Credit")
+                </td>
+                <td>
+                    @Html.TextBox("Credit")
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+}
+
+@section scripts
+{
+<script src="~/Scripts/jquery-2.2.0.js"></script>  
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#DepartmentId").change(function () {
+
+                var departmentId = $("#DepartmentId").val();
+                //$("#studentId").empty();
+                
+                var json = { DepartmentId: departmentId };
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetTeacherCourseByDepartmentId", "Course")',
+                    
+                    contentType: "application/json; charset=utf-8",
+                    
+                    data: JSON.stringify(json),
+                    success: function (data) {
+                        //alert(data);
+                        $.each(data, function (key, value) {
+                            //alert(value);
+                            $("#TeacherId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                            $("#CourseId").append('<option value=' + value.Cid + '>' + value.Code + '</option>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+@*@{
+    if (ViewBag.DepartmentId != null)
+    {
+        @Html.DropDownList("DepartmentId", "<Select>");
+    }
+}*@

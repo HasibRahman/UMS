@@ -1,0 +1,85 @@
+﻿@using StationaryManagement.Models
+@model IEnumerable<StationaryManagement.Models.Stationary>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Show</title>
+</head>
+<body>
+    <form method="POST">
+        <table>
+            <tr>
+                <td>
+                    <label for="TypeId">Type</label>
+                </td>
+                <td>
+                    <select id="TypeId" name="TypeId">
+                        @foreach (var type in ViewBag.stationaryType)
+                        {
+                            <option value="@type.Id">@type.Name</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input type="submit" id="Search" name="Search" value="Search" />
+                </td>
+            </tr>  
+        </table>
+       @if (Model != null)
+{
+    <table class="table" border="1">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Purpose)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Purpose)
+                </td>
+            </tr>
+        }
+    </table>
+    <table>
+        <tr>
+            <td>
+                <label for="totalPrice">Total Price</label>
+            </td>
+            <td>
+                <input type="text" id="totalPrice" name="totalPrice" value="@ViewBag.totalPrice"/>
+            </td>
+            <td>Taka</td>
+        </tr>
+    </table>
+}
+       
+    </form>
+ <p></p>
+    <a href="http://localhost:1317/Stationary/SaveStationary">Save HouseHold Stationary Info</a>
+    <p></p>
+ 
+ 
+</body>
+</html>
